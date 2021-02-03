@@ -21,8 +21,6 @@ function getCurrentWeather() {
   var name = cityName.value
   var currentWeather = weatherUrl + name + key;
 
-  console.log('currentWeather', currentWeather)
-
   fetch(currentWeather)
     .then(function (response) {
       return response.json();
@@ -73,8 +71,7 @@ function getCurrentWeather() {
 
       var options = "&exclude=current,minutely,hourly,alerts"
       var forecastUrl = onecallUrl + 'lat=' + latValue + '&lon=' + lonValue + options + key
-
-      console.log("url", forecastUrl)
+      // console.log("url", forecastUrl)
 
       fetch(forecastUrl)
         .then(function (response) {
@@ -82,12 +79,6 @@ function getCurrentWeather() {
           return response.json();
         })
         .then(function (data) {
-
-          console.log("forecastData --- ", data.daily)
-          console.log("icon--->", data.daily[0].weather[0].icon)
-          console.log("description--->", data.daily[0].weather[0].description)
-          console.log("temp --- ", data.daily[0].temp.day)
-
 
           for (var i = 1; i < 6; i++) {
 
@@ -125,16 +116,7 @@ function getCurrentWeather() {
 
         })
     });
-
-
-
-
-
-
-
-
 }
-
 searchButton.addEventListener('click', getCurrentWeather);
 
 
