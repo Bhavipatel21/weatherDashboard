@@ -27,10 +27,10 @@ function getCurrentWeather() {
     })
     .then(function (weatherdata) {
 
-      console.log("currentweather ---> ", weatherdata)
+      //console.log("currentweather ---> ", weatherdata)
       currentCity.textContent = weatherdata.name + " (" + currentDate + ")"
-      console.log("icon--> ", weatherdata.weather[0].icon)
-      console.log("icon--> ", weatherdata.weather[0].description)
+      //console.log("icon--> ", weatherdata.weather[0].icon)
+      //console.log("icon--> ", weatherdata.weather[0].description)
 
       var img = document.createElement('img')
       img.setAttribute("src", weatherImageUrl + weatherdata.weather[0].icon + "@2x.png");
@@ -43,8 +43,9 @@ function getCurrentWeather() {
 
       var latValue = weatherdata.coord.lat
       var lonValue = weatherdata.coord.lon
+      //calculate uv index
       var uvdata = uvIndexDataUrl + 'lat=' + latValue + '&lon=' + lonValue + key
-
+    
       fetch(uvdata)
         .then(function (response) {
           return response.json();
@@ -68,7 +69,7 @@ function getCurrentWeather() {
           }
 
         })
-
+      //daily forecast url call 
       var options = "&exclude=current,minutely,hourly,alerts"
       var forecastUrl = onecallUrl + 'lat=' + latValue + '&lon=' + lonValue + options + key
       // console.log("url", forecastUrl)
@@ -79,35 +80,36 @@ function getCurrentWeather() {
           return response.json();
         })
         .then(function (data) {
-
+            
+           forecastSection.textContent="";
           for (var i = 1; i < 6; i++) {
 
-            var unix_timestamp = data.daily[i].dt
-            var date = new Date(unix_timestamp * 1000);
-            var forecastDate = dayjs(date).format('MM/DD/YYYY')
-
+            var dailyDate = new Date(data.daily[i].dt * 1000)
+            var forecastDate = dayjs(dailyDate).format('MM/DD/YYYY') 
+            
+            //create column
             var div1 = document.createElement("col")
             forecastSection.appendChild(div1)
-
+            //add card to column 
             var div2 = document.createElement("div")
             div2.setAttribute("class", "card card-body bg-info border-dark")
             div1.appendChild(div2);
+            //create h6 tag for date
             var h6 = document.createElement('h6')
             h6.textContent = forecastDate
             div2.appendChild(h6)
-
+            //create img tag for weather icon
             var img2 = document.createElement('img')
             img2.setAttribute("src", weatherImageUrl + data.daily[i].weather[0].icon + "@2x.png");
             img2.setAttribute("alt", data.daily[i].weather[0].description)
             div2.appendChild(img2)
-
-
+            //create p tag for temparature
             var forecastTemp = data.daily[i].temp.day
             var ptag = document.createElement("p")
             div2.appendChild(ptag)
             ptag.textContent = "Temp:" + forecastTemp + "°F"
 
-
+            //create p tag for humidity
             var forecastHumidity = data.daily[i].humidity
             var ptag2 = document.createElement("p")
             div2.appendChild(ptag2)
