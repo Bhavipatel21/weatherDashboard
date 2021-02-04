@@ -11,7 +11,6 @@ var currentDate = now.format("MM/DD/YYYY");
 
 var weatherUrl ="https://api.openweathermap.org/data/2.5/weather?units=imperial&q=";
 var onecallUrl ="https://api.openweathermap.org/data/2.5/onecall?units=imperial&";
-var uvIndexDataUrl ="https://api.openweathermap.org/data/2.5/uvi?";
 var weatherImageUrl ="https://openweathermap.org/img/wn/";
 var key = "&appid=f630e3736b85bb0ac18e2d1af9cbedca";
 
@@ -54,8 +53,9 @@ function getCurrentWeather() {
         })
         .then(function (uvdata) {
           
+          //console.log(uvdata.current)
           uvIndex.textContent = "UV-Index : ";
-          var uvIndexData = uvdata.daily[0].uvi;
+          var uvIndexData = uvdata.current.uvi;
           var span = document.createElement("span");
           uvIndex.appendChild(span);
           span.textContent = uvIndexData;
