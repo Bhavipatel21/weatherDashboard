@@ -77,7 +77,7 @@ function getCurrentWeather() {
         })
         .then(function (data) {
           
-          forecastSection,textContent="";
+          forecastSection.textContent="";
           
           for (var i = 1; i < 6; i++) {
 
