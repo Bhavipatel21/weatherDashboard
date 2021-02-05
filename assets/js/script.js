@@ -6,6 +6,8 @@ var humidity = document.getElementById("humidity");
 var windSpeed = document.getElementById("wind-speed");
 var uvIndex = document.getElementById("uv-index");
 var forecastSection = document.getElementById("forecast");
+var cityList = document.getElementById("list-cities")
+
 var now = dayjs();
 var currentDate = now.format("MM/DD/YYYY");
 
@@ -24,11 +26,6 @@ function getCurrentWeather() {
       return response.json();
     })
     .then(function (weatherdata) {
-      console.log("currentweather ---> ", weatherdata);
-      currentCity.textContent = weatherdata.name + " (" + currentDate + ")";
-      console.log("icon--> ", weatherdata.weather[0].icon);
-      console.log("icon--> ", weatherdata.weather[0].description);
-
       var img = document.createElement("img");
       img.setAttribute(
         "src",
@@ -115,16 +112,34 @@ function getCurrentWeather() {
         });
     
    //local storage
+
+        cityList.textContent="";
+
         var searchCities = localStorage.getItem("cities");
-          if (searchCities === null) {
+        if (searchCities === null) {
             searchCities = [];
           } else {
             searchCities = JSON.parse(searchCities);
-          }
+          }  
         searchCities.push(name);
         var citiNames = JSON.stringify(searchCities);
-        localStorage.setItem("cities", citiNames);
+        localStorage.setItem("cities", citiNames); 
+                
+  
+
+        for(i=0;i<searchCities.length;i++){
+
+          var litag = document.createElement("li")
+          litag.setAttribute("class","list-group-item")
+          litag.setAttribute("id","list-link")
+          litag.textContent=searchCities[i]
+          cityList.appendChild(litag)
+
+        }
         
+
     });
+
+
 }
 searchButton.addEventListener("click", getCurrentWeather);
