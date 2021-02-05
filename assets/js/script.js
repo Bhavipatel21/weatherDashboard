@@ -26,11 +26,11 @@ function getCurrentWeather() {
       return response.json();
     })
     .then(function (weatherdata) {
+   
+      currentCity.textContent = weatherdata.name + " (" + currentDate + ")";
+    
       var img = document.createElement("img");
-      img.setAttribute(
-        "src",
-        weatherImageUrl + weatherdata.weather[0].icon + "@2x.png"
-      );
+      img.setAttribute("src",weatherImageUrl + weatherdata.weather[0].icon + "@2x.png");
       img.setAttribute("alt", weatherdata.weather[0].description);
       currentCity.appendChild(img);
 
@@ -122,7 +122,7 @@ function getCurrentWeather() {
             searchCities = JSON.parse(searchCities);
           }  
         searchCities.push(name);
-        var citiNames = JSON.stringify(searchCities);
+          var citiNames = JSON.stringify(searchCities);
         localStorage.setItem("cities", citiNames); 
                 
   
