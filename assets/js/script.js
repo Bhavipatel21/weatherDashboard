@@ -40,19 +40,21 @@ function getCurrentWeather() {
 
       var latValue = weatherdata.coord.lat;
       var lonValue = weatherdata.coord.lon;
+      
+  //uvdata calcultion       
       var uvdata = onecallUrl + "lat=" + latValue + "&lon=" + lonValue + key;
+      console.log("url-->", uvdata)
 
-
-  //uvdata calcultion 
       fetch(uvdata)
         .then(function (response) {
           return response.json();
         })
         .then(function (uvdata) {
           
-          //console.log(uvdata.current)
+          console.log("uvdata", uvdata.daily[0].uvi)
           uvIndex.textContent = "UV-Index : ";
-          var uvIndexData = uvdata.current.uvi;
+          var uvIndexData = uvdata.daily[0].uvi;
+          console.log(uvIndexData)
           var span = document.createElement("span");
           uvIndex.appendChild(span);
           span.textContent = uvIndexData;
@@ -129,13 +131,14 @@ function getCurrentWeather() {
 
         for(i=0;i<searchCities.length;i++){
 
-          var litag = document.createElement("li")
-          litag.setAttribute("class","list-group-item")
-          litag.setAttribute("id","list-link")
-          litag.textContent=searchCities[i]
-          cityList.appendChild(litag)
+          var myCities = document.createElement("button")
+          myCities.setAttribute("class","list-group-item list-group-item-action")
+          myCities.setAttribute("id","list-link")
+          myCities.textContent=searchCities[i]
+          cityList.appendChild(myCities)
 
-        }
+                      
+              }
         
 
     });
